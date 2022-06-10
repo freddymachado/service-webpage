@@ -31,7 +31,7 @@ function ContactForm() {
   );
 }
 const Contact = () => (
-    <Layout>
+    <Layout footer={false}>
       <h1>Contacto</h1>
     <ContactForm />
     </Layout>
