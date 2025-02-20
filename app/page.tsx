@@ -90,39 +90,39 @@ export default function Home() {
               <div className="flex flex-col space-y-4 md:w-1/2 w-full ">
                 <div className="space-y-2">
                   <h1 className="text-2xl  tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl/none">
-                    Saas Template with Supabase, Stripe, Databases
+                    Servicio Técnico Especializado para su casa o empresa
                   </h1>
                   <p className=" text-muted-foreground md:text-xl">
-                    NextJS Boilerplate with everything required to build your next SAAS Product
+                    Nuestro trabajo incluye garantía
                   </p>
                 </div>
                 <div className="space-x-4">
-                  <Button>Get Started</Button>
-                  <Button>Learn More</Button>
+                  <Button>Cotizaciones</Button>
+                  <Button>Asesorías</Button>
                 </div>
               </div>
               <div className="w-full md:w-1/2  flex justify-center">
-                <Image src="/hero.png" alt="Hero" width={500} height={500} priority />
+                <Image src="/refri-hero.png" alt="Hero" width={500} height={500} priority />
               </div>
             </div>
           </section>
           <section className="w-full py-10 md:py-20 lg:py-32 bg-muted" id="features">
             <div className="container px-4 md:px-6">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Our Features</h2>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Nuestros Servicios</h2>
               <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3">
                 <div className="flex flex-col items-center space-y-2 border-muted-foreground/10 p-4 rounded-lg">
                   <div className="p-2 bg-primary/10 rounded-full">
                     <Coins className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold">Payments</h3>
+                  <h3 className="text-xl font-bold">Mantenimiento</h3>
                   <p className="text-muted-foreground text-center">Seamlesly integrate Stripe Billing to capture subscription payments - Webhooks and all</p>
                 </div>
                 <div className="flex flex-col items-center space-y-2 border-muted-foreground/10 p-4 rounded-lg">
                   <div className="p-2 bg-primary/10 rounded-full">
                     <UserCheck className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold">Auth</h3>
-                  <p className="text-muted-foreground text-center">Utilize our preexisting Superbase integration to auth your users and secure your app </p>
+                  <h3 className="text-xl font-bold">Instalación</h3>
+                  <p className="text-muted-foreground text-center"> </p>
                 </div>
                 <div className="flex flex-col items-center space-y-2 border-muted-foreground/10 p-4 rounded-lg">
                   <div className="p-2 bg-primary/10 rounded-full">
