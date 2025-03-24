@@ -20,6 +20,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
+import { articles } from '@/lib/data';
 const products = [
   {
     id: 1,
@@ -31,7 +32,7 @@ const products = [
     description:
       'Puedes hacerlo mediante llamada telefónica, WhatsApp o correo electrónico en cualquier momento',
   },
-]; 
+];  
 export default function Home() {
   //const products = 'await getStripeProducts()';
   //const [searchTerm, setSearchTerm] = useState('');
@@ -43,11 +44,11 @@ export default function Home() {
 
   return (
     <>
-      <div className="px-4 py-2 fixed bg-gray-950 text-white text-center text text-sm font-medium w-full">
+      <div className="px-4 py-2 fixed bg-gray-950 text-white text-center text text-sm font-medium w-full z-50">
         <LocalPhoneOutlinedIcon/> +58 (0414) 3367196 | <WatchLaterOutlinedIcon/> LUNE - SAB: 24H  | <EmailOutlinedIcon/> multiserviciosvnzla@gmail.com
       </div>
       <div className="flex flex-col min-h-[100dvh]">
-        <header className="px-4 lg:px-6 h-16 my-9 flex items-center  bg-white border-b fixed border-b-slate-200 w-full">
+        <header className="z-50 px-4 lg:px-6 h-16 my-9 flex items-center  bg-white border-b fixed border-b-slate-200 w-full">
           <Link className="flex items-center justify-center" href="#">
             <Image src="/logo2.png" alt="logo2" width={120} height={120} />
             <span className="sr-only">Multiservicios C.A.</span>
@@ -61,6 +62,9 @@ export default function Home() {
             </a>
             <a className="text-sm font-medium hover:underline underline-offset-4" href="#pricing">
               Cotizaciones
+            </a>
+            <a className="text-sm font-medium hover:underline underline-offset-4" href="/blog">
+              Blog
             </a>
           </nav>
               <a
@@ -104,7 +108,7 @@ export default function Home() {
               </div>
         </header>
         <main className="flex-1 my-9 ">
-          <section className="w-full py-20 lg:py-32 xl:py-40">
+          <section className="w-full py-20 ">
             <div className="container px-4 md:px-6 flex flex-col md:flex-row ">
               <div className="flex flex-col space-y-4 md:w-1/2 w-full ">
                 <div className="space-y-2">
@@ -125,7 +129,7 @@ export default function Home() {
               </div>
             </div>
           </section>
-          <section className="w-full py-10 md:py-20 lg:py-32 bg-muted" id="features">
+          <section className="w-full py-10  bg-muted" id="features">
             <div className="container px-4 md:px-6">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Nuestros Servicios</h2>
               <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3">
@@ -153,7 +157,7 @@ export default function Home() {
               </div>
             </div>
           </section>
-          <section className="w-full py-10 md:py-20 lg:py-32" id="testimonials">
+          <section className="w-full py-10 " id="testimonials">
             <div className="container px-4 md:px-6">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Lo que nuestros clientes opinan</h2>
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-8">
@@ -193,7 +197,7 @@ export default function Home() {
               </div>
             </div>
           </section>
-          <section className="w-full py-10 md:py-20 lg:py-32 bg-muted" id="pricing">
+          <section className="w-full py-5  bg-muted" id="pricing">
             <div className="container px-4 md:px-6 ">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">¿Buscas un técnico en refrigeración?</h2>
               <p className="text-muted-foreground text-center mb-8 md:text-xl">Agenda una visita:</p>
@@ -234,31 +238,35 @@ export default function Home() {
               </div>
             </div>
           </section>
-          <section className="w-full py-10 md:py-20 lg:py-32 ">
-            <div className="container px-4 md:px-6">
-            <Card sx={{ maxWidth: 345 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image="/tecnico_refrigeracion.jpg"
-                  alt="tecnico refrigeracion"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    ¿Cómo limpiar tu aire acondicionado?
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Si tu caso es residencial, es posible realizar un mantenimiento preventivo de tu aire acondicionado siguiendo los siguientes pasos...
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button color="primary">
-                  Leer más
-                </Button>
-              </CardActions>
-            </Card>
+          <section className="w-full py-5  ">
+            <div className="flex container px-4 md:px-6 w-full ">                
+                 {articles.map((article) => (
+                  <Card key={article.id} sx={{ maxWidth: 345, margin: 3 }}>
+                    <CardActionArea>
+                      <CardMedia
+                        component="img"
+                        height="150"
+                        image={article.image}
+                        alt={article.alt}
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                        {article.title}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        {article.paragraphs}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                      <Button color="primary">
+                        <Link href={'/blog/' + article.id} className="w-full">
+                          Leer más
+                        </Link>
+                      </Button>
+                    </CardActions>
+                  </Card>
+                ))}
             </div>
           </section>
         </main>
