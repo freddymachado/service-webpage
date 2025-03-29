@@ -100,9 +100,9 @@ export default function BlogPage() {
         <a className="text-sm font-medium hover:underline underline-offset-4" href="#">
           Cotizaciones
         </a>
-        <a className="text-sm font-medium hover:underline underline-offset-4" href="/blog">
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/blog">
           Blog
-        </a>
+        </Link>
       </nav>
           <a
             href="#"

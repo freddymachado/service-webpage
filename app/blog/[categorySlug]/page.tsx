@@ -42,7 +42,7 @@ export default function Page({ params }: { params: { categorySlug: string } }) {
 
   return (
     <>
-    <div className="z-50 px-4 py-2 fixed bg-gray-950 text-white text-center text text-sm font-medium w-full z-50">
+    <div className="px-4 py-2 fixed bg-gray-950 text-white text-center text text-sm font-medium w-full z-50">
       <LocalPhoneOutlinedIcon/> +58 (0414) 3367196 | <WatchLaterOutlinedIcon/> LUNE - SAB: 24H  | <EmailOutlinedIcon/> multiserviciosvnzla@gmail.com
     </div>
     <div className="flex min-h-screen flex-col">
@@ -62,9 +62,9 @@ export default function Page({ params }: { params: { categorySlug: string } }) {
             <a className="text-sm font-medium hover:underline underline-offset-4" href="#pricing">
               Cotizaciones
             </a>
-            <a className="text-sm font-medium hover:underline underline-offset-4" href="/blog">
+            <Link className="text-sm font-medium hover:underline underline-offset-4" href="/blog">
               Blog
-            </a>
+            </Link>
           </nav>
               <a
                 href="#"

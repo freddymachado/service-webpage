@@ -56,16 +56,16 @@ export default function Home() {
           <nav className="ml-auto flex gap-4 sm:gap-6 mr-4">
             <a className="text-sm font-medium hover:underline underline-offset-4" href="#features">
               Servicios
-            </a>
+              </a>
             <a className="text-sm font-medium hover:underline underline-offset-4" href="#testimonials">
               Opiniones
             </a>
             <a className="text-sm font-medium hover:underline underline-offset-4" href="#pricing">
               Cotizaciones
             </a>
-            <a className="text-sm font-medium hover:underline underline-offset-4" href="/blog">
+            <Link className="text-sm font-medium hover:underline underline-offset-4" href="/blog">
               Blog
-            </a>
+              </Link>
           </nav>
               <a
                 href="#"
