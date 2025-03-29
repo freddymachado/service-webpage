@@ -11,8 +11,6 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import Flag from 'react-world-flags'
-import { Search} from 'lucide-react'
-import { Input } from "@/components/ui/input"
 import { ButtonGroup, Button as Button2 } from "@mui/material";
 import CardMedia from '@mui/material/CardMedia';
 import Card from '@mui/material/Card';
@@ -21,6 +19,12 @@ import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
 import { articles } from '@/lib/data';
+import { useState } from "react";
+import TextField from '@mui/material/TextField';
+import { motion } from "framer-motion";
+import { sendEmail } from "@/lib/resend";
+import Alert from '@mui/material/Alert';
+
 const products = [
   {
     id: 1,
@@ -34,10 +38,55 @@ const products = [
   },
 ];  
 export default function Home() {
-  //const products = 'await getStripeProducts()';
-  //const [searchTerm, setSearchTerm] = useState('');
-  const searchTerm = '';
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
 
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+  const [isFormActive, setIsFormActive] = useState(false); // Estado para controlar el formulario
+  const [successMessage, setSuccessMessage] = useState(false); // Estado para el mensaje de éxito
+  const [errorMessage, setErrorMessage] = useState(false); // Estado para el mensaje de éxito
+  const showForm = (): void => {
+    setIsFormActive((prevState) => !prevState); // Alternar el estado
+  };
+
+  const sendEmailAction = async (formData: { name: string; email: string; subject: string; message: string }) => {
+    
+    try {
+      const response = await sendEmail(formData);
+      console.log("Respuesta del servidor:", response);
+      if(response ==null){
+        setTimeout(() => {
+          console.log('Mensaje enviado:', formData);
+          setSuccessMessage(true); // Mostrar el mensaje de éxito
+          setTimeout(() => setSuccessMessage(false), 5000); // Ocultar el mensaje después de 5 segundos
+        }, 1000);
+      }else{
+        setTimeout(() => {
+          console.log('Mensaje no enviado:', formData);
+          setErrorMessage(true); // Mostrar el mensaje de éxito
+          setTimeout(() => setErrorMessage(false), 5000); // Ocultar el mensaje después de 5 segundos
+        }, 1000);}
+        
+    } catch (error) {
+      setTimeout(() => {
+        console.log('Mensaje no enviado:', error);
+        setErrorMessage(true); // Mostrar el mensaje de éxito
+        setTimeout(() => setErrorMessage(false), 5000); // Ocultar el mensaje después de 5 segundos
+      }, 1000);}
+    
+  };
   /* const handleSearch = () => {
     //setSearchTerm(event.target.value);
   }; */
@@ -48,6 +97,7 @@ export default function Home() {
         <LocalPhoneOutlinedIcon/> +58 (0414) 3367196 | <WatchLaterOutlinedIcon/> LUNE - SAB: 24H  | <EmailOutlinedIcon/> multiserviciosvnzla@gmail.com
       </div>
       <div className="flex flex-col min-h-[100dvh]">
+        {/* TODO: Component Header */}
         <header className="z-50 px-4 lg:px-6 h-16 my-9 flex items-center  bg-white border-b fixed border-b-slate-200 w-full">
           <Link className="flex items-center justify-center" href="#">
             <Image src="/logo2.png" alt="logo2" width={120} height={120} />
@@ -76,19 +126,6 @@ export default function Home() {
                 <span className="sr-only">, change currency</span>
               </a>
               
-              {/* Search */}
-              <form className="hidden md:flex max-w-sm p-2 text-gray-400 hover:text-gray-500 lg:ml-4">
-                <div className="relative w-60">
-                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="search"
-                    placeholder="Buscar productos..."
-                    value={searchTerm}
-                    className="pl-8"
-                    /* onChange={handleSearch} */
-                  />
-                </div>
-              </form>
           <Button className="mx-2 md:mx-4 lg:mx-6 xl:mx-10">
             <Link className="text-sm font-medium hover:underline underline-offset-4" href="/login">
               Inicio de Sesión
@@ -108,6 +145,8 @@ export default function Home() {
               </div>
         </header>
         <main className="flex-1 my-9 ">
+          
+          {/* Landing */}
           <section className="w-full py-20 ">
             <div className="container px-4 md:px-6 flex flex-col md:flex-row ">
               <div className="flex flex-col space-y-4 md:w-1/2 w-full ">
@@ -129,6 +168,7 @@ export default function Home() {
               </div>
             </div>
           </section>
+          {/* Servicios */}
           <section className="w-full py-10  bg-muted" id="features">
             <div className="container px-4 md:px-6">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Nuestros Servicios</h2>
@@ -157,6 +197,7 @@ export default function Home() {
               </div>
             </div>
           </section>
+          {/* Opiniones */}
           <section className="w-full py-10 " id="testimonials">
             <div className="container px-4 md:px-6">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">Lo que nuestros clientes opinan</h2>
@@ -197,11 +238,12 @@ export default function Home() {
               </div>
             </div>
           </section>
+          {/* Contacto */}
           <section className="w-full py-5  bg-muted" id="pricing">
             <div className="container px-4 md:px-6 ">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-4">¿Buscas un técnico en refrigeración?</h2>
               <p className="text-muted-foreground text-center mb-8 md:text-xl">Agenda una visita:</p>
-              <div className="text-center w-1/3 m-auto">                
+              <div className="text-center w-1/3 m-auto">  
                  {products.map((product) => (
                   <Card2 key={product.id}>
                     <CardHeader>
@@ -209,29 +251,128 @@ export default function Home() {
                       <CardDescription>{product.description}</CardDescription>
                     </CardHeader>
                     <CardContent2>
-
-                      <ButtonGroup variant="outlined" aria-label="Basic button group">
+                      <ButtonGroup variant="outlined" color="success" aria-label="Basic button group">
                         <Button2 variant="outlined"><LocalPhoneOutlinedIcon/></Button2>
                         <Button2 variant="outlined"><WhatsAppIcon/></Button2>
-                        <Button2 variant="outlined"><EmailOutlinedIcon/></Button2>
+                        <Button2 variant={isFormActive ? "contained" : "outlined"}
+                          onClick={() => showForm()}>
+                            <EmailOutlinedIcon/>
+                        </Button2>
                       </ButtonGroup>
 
-                            {product.category.map((category, index) => (
-                      <ul className="mt-4 space-y-2" key={index}>
-                          
+        
+                      {/* Mostrar mensaje de éxito */}
+                      {successMessage &&(
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0.9, scale: 0 }}
+                          transition={{ duration: 0.5 }}
+                          className=" mt-4 text-green-600 font-medium"
+                        >
+                          <Alert variant="filled" severity="success">
+                            ¡Mensaje enviado con éxito!
+                          </Alert>
+                        </motion.div>
+                      )}
+                      {/* Mostrar mensaje de error */}
+                      {errorMessage && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0.9, scale: 0 }}
+                          transition={{ duration: 0.5 }}
+                          className="mt-4 text-green-600 font-medium"
+                        >
+                          <Alert variant="filled" severity="error">
+                            El mensaje no pudo enviarse
+                          </Alert>
+                        </motion.div>
+                      )}
+                      {isFormActive ?
+                        
+                          <motion.form 
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0.9, scale: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="space-y-4 mt-2"
+                            onSubmit={(e) => {
+                              e.preventDefault(); // Evitar el comportamiento predeterminado del formulario
+                              sendEmailAction(formData); // Pasar los datos del formulario a la función
+                            }}
+                          >
+                            
+                            <TextField
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                                label="Nombre"
+                                className="w-full"
+                            />
+                            
+                            <TextField
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                                label="Email"
+                                className="w-full"
+                            />
+                            
+                            <TextField
+                                type="text"
+                                id="subject"
+                                name="subject"
+                                value={formData.subject}
+                                onChange={handleChange}
+                                label="Asunto"
+                                className="w-full"
+                            />
+                              <TextField
+                                id="message"
+                                name="message"
+                                value={formData.message}
+                                onChange={handleChange}
+                                required
+                                className="w-full"
+                                rows={4}
+                                label="Mensaje"
+                                placeholder="Escriba su mensaje aquí..."
+                                multiline
+                              />
+                              <Button type="submit" className="w-full">
+                                Enviar Mensaje
+                              </Button>
+                          </motion.form>
+                        :
+                        product.category.map((category, index) => (
+                          <motion.ul className="mt-4 space-y-2" key={index}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0.9, scale: 0 }}
+                            transition={{ duration: 0.5 }}>                              
                               <li key={index} className="flex items-center">
-                            <Check className="mr-2 h-4 w-4 text-primary" />
-                            <span key={category} className="text-muted-foreground">{category}</span>  
-                          </li>
-                      </ul>))}
+                                <Check className="mr-2 h-4 w-4 text-primary" />
+                                <span key={category} className="text-muted-foreground">{category}</span>  
+                              </li>
+                          </motion.ul>
+                        ))
+                      }
                     </CardContent2>
                     <CardFooter>
+                      {!isFormActive ?                         
                       <Link
                         className="text-sm font-medium hover:underline underline-offset-4 w-full"
                         href={`/`}
                       >
                         <Button className="w-full">Agendar</Button>
-                      </Link>
+                      </Link> : <p></p>}
                     </CardFooter>
                   </Card2>
                 ))} 
